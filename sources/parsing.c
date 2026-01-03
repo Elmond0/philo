@@ -69,8 +69,12 @@ bool parse_input(t_table *table, char **av)
 
 	error = false;
 	table->philo_nbr = ft_atol(av[1], &error);
-	if (error)
+	if (error || table->philo_nbr <= 0)
+	{
+		if (!error)
+			error_msg("Invalid number of philosophers");
 		return (false);
+	}
 	table->time_to_die = ft_atol(av[2], &error) * 1e3;
 	if (error)
 		return (false);

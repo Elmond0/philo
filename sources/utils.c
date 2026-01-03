@@ -48,6 +48,7 @@ void clean(t_table *table)
 	{
 		philo = table->philos + i;
 		safe_mutex_handle(&philo->philo_mutex, DESTROY);
+		safe_mutex_handle(&table->forks[i].fork, DESTROY);
 	}
 	safe_mutex_handle(&table->write_mutex, DESTROY);
 	safe_mutex_handle(&table->table_mutex, DESTROY);
