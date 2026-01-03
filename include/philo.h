@@ -7,6 +7,21 @@
 #include <limits.h>
 #include <errno.h>
 
+#define DEBUG_MODE 0
+
+// PHILO STATES
+
+typedef	enum e_status
+{
+	EATING,
+	SLEEPING,
+	THINKING,
+	TAKE_FIRST_FORK,
+	TAKE_SECOND_FORK,
+	DIED,
+}			t_philo_status;
+
+
 // OPCODE for mutex
 
 typedef enum e_opcode
@@ -19,6 +34,13 @@ typedef enum e_opcode
 	JOIN,
 	DETACH,
 }			t_opcode;
+
+typedef	enum	e_time_code
+{
+	SECOND,
+	MILLISECOND,
+	MICROSECOND,
+}				t_time_code;
 
 // STRUCTURE
 
@@ -45,6 +67,7 @@ typedef struct s_philo
 	t_fork		*first_fork;
 	t_fork		*second_fork;
 	pthread_t	thread_id;
+	t_mtx		philo_mutex;
 	t_table		*table;
 
 }			t_philo;
@@ -62,13 +85,16 @@ typedef	struct s_table
 	bool	end_simulation;
 	bool	all_thread_ready;
 	t_mtx	table_mutex;
+	t_mtx 	write_mutex;
 	t_fork	*forks;
 	t_philo	*philos;
 }			t_table;
 
 // utils
 
-void error_exit(const char *error);
+long	gettime(t_time_code time_code);
+void	precise_usleep(long usec, t_table *table);
+void	error_exit(const char *error);
 
 // parsing
 
@@ -84,7 +110,7 @@ void *safe_malloc(size_t bytes);
 
 void data_init(t_table *table);
 
-	// dinner
+// dinner
 
 void *dinner_simulation(void *data);
 void dinner_start(t_table *table);
@@ -100,3 +126,8 @@ bool simulation_finished(t_table *table);
 // synchro_utils
 
 void wait_all_threads(t_table *table);
+
+// write
+
+static void	write_status_debug(t_philo_status status, t_philo *philo, long elapsed);
+void		write_status(t_philo_status status, t_philo *philo, bool debug);
