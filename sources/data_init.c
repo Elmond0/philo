@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   data_init.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: elmondo <elmondo@student.42firenze.it>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/10 11:02:54 by elmondo           #+#    #+#             */
+/*   Updated: 2026/01/10 11:03:37 by elmondo          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/philo.h"
 
-static void assign_forks(t_philo *philo, t_fork *forks, int philo_position)
+static void	assign_forks(t_philo *philo, t_fork *forks, int philo_position)
 {
-	int philo_nbr;
+	int	philo_nbr;
 
 	philo_nbr = philo->table->philo_nbr;
 	philo->first_fork = &forks[(philo_position + 1) % philo_nbr];
@@ -14,10 +26,10 @@ static void assign_forks(t_philo *philo, t_fork *forks, int philo_position)
 	}
 }
 
-static void philo_init(t_table *table)
+static void	philo_init(t_table *table)
 {
-	int i;
-	t_philo *philo;
+	int		i;
+	t_philo	*philo;
 
 	i = -1;
 	while (++i < table->philo_nbr)
@@ -28,14 +40,13 @@ static void philo_init(t_table *table)
 		philo->meal_counter = 0;
 		philo->table = table;
 		safe_mutex_handle(&philo->philo_mutex, INIT);
-
 		assign_forks(philo, table->forks, i);
 	}
 }
 
-bool data_init(t_table *table)
+bool	data_init(t_table *table)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	table->end_simulation = false;

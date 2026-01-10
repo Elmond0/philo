@@ -6,34 +6,35 @@
 /*   By: elmondo <elmondo@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/03 15:18:25 by elmondo           #+#    #+#             */
-/*   Updated: 2026/01/03 17:30:35 by elmondo          ###   ########.fr       */
+/*   Updated: 2026/01/10 11:10:09 by elmondo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-static bool philo_died(t_philo *philo)
+static bool	philo_died(t_philo *philo)
 {
-	long elapsed;
-	long t_to_die;
+	long	elapsed;
+	long	t_to_die;
 
 	if (get_bool(&philo->philo_mutex, &philo->full))
 		return (false);
-	elapsed = gettime(MILLISECOND) - get_long(&philo->philo_mutex, &philo->last_meal_time);
+	elapsed = gettime(MILLISECOND) - get_long(&philo->philo_mutex,
+			&philo->last_meal_time);
 	t_to_die = philo->table->time_to_die / 1e3;
 	if (elapsed > t_to_die)
 		return (true);
 	return (false);
 }
 
-void *monitor_dinner(void *data)
+void	*monitor_dinner(void *data)
 {
-	int i;
-	t_table *table;
+	int		i;
+	t_table	*table;
 
 	table = (t_table *)data;
-	while (!all_threads_running(&table->table_mutex, &table->threads_running_nbr,
-								table->philo_nbr))
+	while (!all_threads_running(&table->table_mutex,
+			&table->threads_running_nbr, table->philo_nbr))
 		;
 	while (!simulation_finished(table))
 	{
@@ -43,7 +44,7 @@ void *monitor_dinner(void *data)
 			if (philo_died(table->philos + i))
 			{
 				set_bool(&table->table_mutex, &table->end_simulation, true);
-				write_status(DIED, table->philos + i, DEBUG_MODE);
+				write_status(DIED, table->philos + i);
 				return (NULL);
 			}
 		}

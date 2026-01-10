@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   safe_function.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: elmondo <elmondo@student.42firenze.it>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/10 11:10:27 by elmondo           #+#    #+#             */
+/*   Updated: 2026/01/10 11:11:19 by elmondo          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/philo.h"
 
-void *safe_malloc(size_t bytes)
+void	*safe_malloc(size_t bytes)
 {
-	void *ret;
+	void	*ret;
 
 	ret = malloc(bytes);
 	if (NULL == ret)
@@ -10,15 +22,15 @@ void *safe_malloc(size_t bytes)
 	return (ret);
 }
 
-static int handle_thread_error(int status)
+static int	handle_thread_error(int status)
 {
 	if (0 == status)
 		return (0);
 	return (1);
 }
 
-int safe_thread_handle(pthread_t *thread, void *(*foo)(void *),
-					   void *data, t_opcode opcode)
+int	safe_thread_handle(pthread_t *thread, void *(*foo)(void *),
+	void *data, t_opcode opcode)
 {
 	if (CREATE == opcode)
 		return (handle_thread_error(pthread_create(thread, NULL, foo, data)));
@@ -28,7 +40,8 @@ int safe_thread_handle(pthread_t *thread, void *(*foo)(void *),
 		return (handle_thread_error(pthread_detach(*thread)));
 	return (1);
 }
-int safe_mutex_handle(t_mtx *mutex, t_opcode opcode)
+
+int	safe_mutex_handle(t_mtx *mutex, t_opcode opcode)
 {
 	if (LOCK == opcode)
 		return (pthread_mutex_lock(mutex));

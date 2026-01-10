@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: elmondo <elmondo@student.42firenze.it>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/10 11:14:11 by elmondo           #+#    #+#             */
+/*   Updated: 2026/01/10 11:15:26 by elmondo          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/philo.h"
 
-long gettime(t_time_code time_code)
+long	gettime(t_time_code time_code)
 {
-	struct timeval tv;
+	struct timeval	tv;
 
 	if (gettimeofday(&tv, NULL))
 		return (-1);
@@ -15,17 +27,17 @@ long gettime(t_time_code time_code)
 	return (-1);
 }
 
-void precise_usleep(long usec, t_table *table)
+void	precise_usleep(long usec, t_table *table)
 {
-	long start;
-	long elapsed;
-	long rem;
+	long	start;
+	long	elapsed;
+	long	rem;
 
 	start = gettime(MICROSECOND);
 	while (gettime(MICROSECOND) - start < usec)
 	{
 		if (simulation_finished(table))
-			break;
+			break ;
 		elapsed = gettime(MICROSECOND) - start;
 		rem = usec - elapsed;
 		if (rem > 1e3)
@@ -38,10 +50,10 @@ void precise_usleep(long usec, t_table *table)
 	}
 }
 
-void clean(t_table *table)
+void	clean(t_table *table)
 {
-	t_philo *philo;
-	int i;
+	t_philo	*philo;
+	int		i;
 
 	i = -1;
 	while (++i < table->philo_nbr)
@@ -56,7 +68,25 @@ void clean(t_table *table)
 	free(table->philos);
 }
 
-void error_msg(const char *error)
+void	error_msg(const char *error)
 {
 	printf("%s\n", error);
+}
+
+void	thinking(t_philo *philo, bool pre_simulation)
+{
+	long	t_eat;
+	long	t_sleep;
+	long	t_think;
+
+	if (!pre_simulation)
+		write_status(THINKING, philo);
+	if (philo->table->philo_nbr % 2 == 0)
+		return ;
+	t_eat = philo->table->time_to_eat;
+	t_sleep = philo->table->time_to_sleep;
+	t_think = t_eat * 2 - t_sleep;
+	if (t_think < 0)
+		t_think = 0;
+	precise_usleep(t_think * 0.42, philo->table);
 }
