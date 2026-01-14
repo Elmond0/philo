@@ -6,7 +6,7 @@
 /*   By: elmondo <elmondo@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 11:10:27 by elmondo           #+#    #+#             */
-/*   Updated: 2026/01/10 11:11:19 by elmondo          ###   ########.fr       */
+/*   Updated: 2026/01/14 13:10:25 by elmondo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	safe_thread_handle(pthread_t *thread, void *(*foo)(void *),
 	return (1);
 }
 
-int	safe_mutex_handle(t_mtx *mutex, t_opcode opcode)
+int	safe_mutex_handle(pthread_mutex_t *mutex, t_opcode opcode)
 {
 	if (LOCK == opcode)
 		return (pthread_mutex_lock(mutex));
