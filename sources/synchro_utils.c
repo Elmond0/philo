@@ -6,7 +6,7 @@
 /*   By: elmondo <elmondo@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 11:13:08 by elmondo           #+#    #+#             */
-/*   Updated: 2026/01/14 13:10:57 by elmondo          ###   ########.fr       */
+/*   Updated: 2026/01/14 14:04:42 by elmondo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 void	wait_all_threads(t_table *table)
 {
 	while (!get_bool(&table->table_mutex, &table->all_thread_ready))
-		;
+		usleep(100);
 }
 
 bool	all_threads_running(pthread_mutex_t *mutex, long *threads,
-		long philo_nbr)
+			long philo_nbr)
 {
 	bool	ret;
 

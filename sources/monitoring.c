@@ -6,7 +6,7 @@
 /*   By: elmondo <elmondo@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/03 15:18:25 by elmondo           #+#    #+#             */
-/*   Updated: 2026/01/10 11:10:09 by elmondo          ###   ########.fr       */
+/*   Updated: 2026/01/14 14:03:48 by elmondo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	*monitor_dinner(void *data)
 	table = (t_table *)data;
 	while (!all_threads_running(&table->table_mutex,
 			&table->threads_running_nbr, table->philo_nbr))
-		;
+		usleep(100);
 	while (!simulation_finished(table))
 	{
 		i = -1;

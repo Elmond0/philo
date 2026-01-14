@@ -6,7 +6,7 @@
 /*   By: elmondo <elmondo@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/10 11:14:11 by elmondo           #+#    #+#             */
-/*   Updated: 2026/01/10 11:15:26 by elmondo          ###   ########.fr       */
+/*   Updated: 2026/01/14 14:05:59 by elmondo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	precise_usleep(long usec, t_table *table)
 		else
 		{
 			while (gettime(MICROSECOND) - start < usec)
-				;
+				usleep(100);
 		}
 	}
 }
